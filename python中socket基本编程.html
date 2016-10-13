@@ -1,0 +1,247 @@
+<html>
+<head>
+  <title>python中socket基本编程</title>
+  <basefont face="微软雅黑" size="2" />
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="exporter-version" content="Evernote Windows/303502 (zh-CN, DDL); Windows/6.1.7601 Service Pack 1 (Win64);"/>
+  <style>
+    body, td {
+      font-family: 微软雅黑;
+      font-size: 10pt;
+    }
+  </style>
+</head>
+<body>
+<a name="664"/>
+<h1>python中socket基本编程</h1>
+
+<div>
+<span><div><span style="color: rgb(51, 51, 51); font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Verdana, sans-serif, 宋体;">python 编写server的步骤： </span><br style="color: rgb(51, 51, 51); font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><ol style="color: rgb(51, 51, 51); font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Verdana, sans-serif, 宋体;"><li><p style="word-wrap: break-word; margin: 5px 0px;">第一步是创建socket对象。调用socket构造函数。如：<br/><br/>
+socket = socket.socket( family, type )<br/><br/>
+family参数代表地址家族，可为AF_INET或AF_UNIX。AF_INET家族包括Internet地址，AF_UNIX家族用于同一台机器上的进程间通信。<br/>
+type参数代表套接字类型，可为SOCK_STREAM(流套接字)和SOCK_DGRAM(数据报套接字)。</p></li><li><p style="word-wrap: break-word; margin: 5px 0px;">第二步是将socket绑定到指定地址。这是通过socket对象的bind方法来实现的：<br/><br/>
+socket.bind( address ) <br/><br/><br/><br/>
+由AF_INET所创建的套接字，address地址必须是一个双元素元组，格式是(host,port)。host代表主机，port代表端口号。如果端口号正在使用、主机名不正确或端口已被保留，bind方法将引发socket.error异常。</p></li><li><p style="word-wrap: break-word; margin: 5px 0px;">第三步是使用socket套接字的listen方法接收连接请求。</p><p style="word-wrap: break-word; margin: 5px 0px;">socket.listen( backlog )</p><p style="word-wrap: break-word; margin: 5px 0px;">backlog指定最多允许多少个客户连接到服务器。它的值至少为1。收到连接请求后，这些请求需要排队，如果队列满，就拒绝请求。</p></li><li><p style="word-wrap: break-word; margin: 5px 0px;">第四步是服务器套接字通过socket的accept方法等待客户请求一个连接。<br/><br/>
+connection, address = socket.accept()<br/><br/>
+调 用accept方法时，socket会时入“waiting”状态。客户请求连接时，方法建立连接并返回服务器。accept方法返回一个含有两个元素的 元组(connection,address)。第一个元素connection是新的socket对象，服务器必须通过它与客户通信；第二个元素 address是客户的Internet地址。</p></li><li>第五步是处理阶段，服务器和客户端通过send和recv方法通信(传输 数据)。服务器调用send，并采用字符串形式向客户发送信息。send方法返回已发送的字符个数。服务器使用recv方法从客户接收信息。调用recv 时，服务器必须指定一个整数，它对应于可通过本次方法调用来接收的最大数据量。recv方法在接收数据时会进入“blocked”状态，最后返回一个字符 串，用它表示收到的数据。如果发送的数据量超过了recv所允许的，数据会被截短。多余的数据将缓冲于接收端。以后调用recv时，多余的数据会从缓冲区 删除(以及自上次调用recv以来，客户可能发送的其它任何数据)。</li><li>传输结束，服务器调用socket的close方法关闭连接。</li></ol><span style="color: rgb(51, 51, 51); font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Verdana, sans-serif, 宋体;">python编写client的步骤： </span><br style="color: rgb(51, 51, 51); font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><ol style="color: rgb(51, 51, 51); font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Verdana, sans-serif, 宋体;"><li>创建一个socket以连接服务器：socket = socket.socket( family, type )</li><li><p style="word-wrap: break-word; margin: 5px 0px;">使用socket的connect方法连接服务器。对于AF_INET家族,连接格式如下：</p><p style="word-wrap: break-word; margin: 5px 0px;">socket.connect( (host,port) )</p><p style="word-wrap: break-word; margin: 5px 0px;">host代表服务器主机名或IP，port代表服务器进程所绑定的端口号。如连接成功，客户就可通过套接字与服务器通信，如果连接失败，会引发socket.error异常。</p></li><li>处理阶段，客户和服务器将通过send方法和recv方法通信。</li><li>传输结束，客户通过调用socket的close方法关闭连接。</li></ol><span style="color: rgb(51, 51, 51); font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Verdana, sans-serif, 宋体;">下面给个简单的例子： </span><br style="color: rgb(51, 51, 51); font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><br style="color: rgb(51, 51, 51); font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><span style="color: rgb(51, 51, 51); font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Verdana, sans-serif, 宋体;">server.py </span><br style="color: rgb(51, 51, 51); font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><div style="word-wrap: break-word; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; padding: 0px; margin: 0px;"><div><span style="color: rgb(51, 51, 51);"><span style="font-size: 14px;"><span style="font-family: Verdana, sans-serif, 宋体;">python 代码</span></span></span></div><div><img src="python中socket基本编程_files/1510505Q1-0.jpg" type="image/jpeg"/></div><div><span style="color: rgb(51, 51, 51); font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Verdana, sans-serif, 宋体;">client.py </span><br style="color: rgb(51, 51, 51); font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><div style="word-wrap: break-word; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; padding: 0px; margin: 0px;"><div><span style="color: rgb(51, 51, 51);"><span style="font-size: 14px;"><span style="font-family: Verdana, sans-serif, 宋体;">python 代码</span></span></span></div><div><img src="python中socket基本编程_files/1510502Q7-1.jpg" type="image/jpeg"/></div><div><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(51, 51, 51); font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Verdana, sans-serif, 宋体;">在终端运行server.py，然后运行clien.py，会在终端打印“welcome to server!&quot;。如果更改client.py的sock.send('1')为其它值在终端会打印”please go out!“，更改time.sleep(2)为大于5的数值， 服务器将会超时。</p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(51, 51, 51); font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Verdana, sans-serif, 宋体;"><br/></p><div style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><div><span style="color: rgb(51, 51, 51);"><span style="font-size: 14px;"><span style="font-family: Verdana, sans-serif, 宋体;"> </span></span></span><img src="python中socket基本编程_files/15105031B-2.gif" type="image/gif"/></div><div><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(51, 51, 51); font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Verdana, sans-serif, 宋体;">图1 tcp通信图</p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(51, 51, 51); font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Verdana, sans-serif, 宋体;"> </p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(51, 51, 51); font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Verdana, sans-serif, 宋体;">上图是一张socket的tcp通信简图，我们都知道tcp的通信需要三次握手。tcp是可靠的、面向连接的、尽力传输的协议，而udp是不可靠 的、面向非连接的、不尽力传输的协议。但是不可靠不代表它没有用，udp有自己的应用场景，语音和视频几乎都在使用udp协议，它的不可靠只是相对于 tcp来说的，但是它的好处就是效率，高效在某些场景要比可靠性重要。这就涉及trade-off了，也就是权衡，需要根据你的应用权衡利弊，然后进行选 择。</p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(51, 51, 51); font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Verdana, sans-serif, 宋体;">在socket选择初始化一个tcp协议的socket之后，就会绑定一个地址和端口，然后开始listen，客户端连接这个listen的tcp 之后，服务端会accept这个请求，然后产生一个新的socket，双方使用这个新的socket（地址和端口，地址还是上面listen的地址，端口 会是一个新的，这个从打印出的结果中可以看出）进行后续的通信。原来的端口会继续的listen新的请求。</p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(51, 51, 51); font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Verdana, sans-serif, 宋体;"> </p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(51, 51, 51); font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Verdana, sans-serif, 宋体;">下面是tcpServer的代码</p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(51, 51, 51); font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Verdana, sans-serif, 宋体;"><br/></p><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 15.3999996185303px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(51, 51, 51); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+import socket  
+
+ HOST='192.168.0.37'  
+
+ PORT=50000  
+
+ BUFFER=4096  
+
+ sock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)  
+
+ sock.bind((HOST,PORT))  
+
+ sock.listen(0)  
+
+ print('tcpServer listen at: %s:%s\n\r' %(HOST,PORT))  
+
+ while True:  
+
+   client_sock,client_addr=sock.accept()  
+   print('%s:%s connect' %client_addr)  
+
+   while True:  
+
+     recv=client_sock.recv(BUFFER)  
+
+     if not recv:  
+
+       client_sock.close()  
+
+       break  
+
+     print('[Client %s:%s said]:%s' % (client_addr[0],client_addr[1],recv))  
+
+     client_sock.send('tcpServer has received your message')  
+ sock.close() 
+</pre><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(51, 51, 51); font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Verdana, sans-serif, 宋体;">socket.SOCK_STREAM是用来指定socket是基于tcp协议的。</p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(51, 51, 51); font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Verdana, sans-serif, 宋体;">下面是对应的客户端代码</p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(51, 51, 51); font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Verdana, sans-serif, 宋体;"><br/></p><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 15.3999996185303px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(51, 51, 51); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+import socket  
+ 
+ HOST='192.168.0.37'  
+ 
+ PORT=50000  
+ 
+ BUFFER=4096  
+ 
+ sock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)  
+
+ sock.connect((HOST,PORT))  
+
+ sock.send('hello, tcpServer!')  
+
+ recv=sock.recv(BUFFER)  
+
+ print('[tcpServer said]: %s' % recv)  
+
+ sock.close() 
+</pre><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(51, 51, 51); font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><br/></p><span style="color: rgb(51, 51, 51); font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Verdana, sans-serif, 宋体;">下面是udpServer的代码</span><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(51, 51, 51); font-family: Verdana, Arial, Tahoma; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><br/></p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(51, 51, 51); font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Verdana, sans-serif, 宋体;"><br/></p><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 15.3999996185303px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(51, 51, 51); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+import socket  
+
+ HOST='192.168.0.37'  
+
+  
+ PORT=50001  
+
+  
+ BUFFER=4096  
+
+  
+ sock=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)  
+
+
+  
+  
+ sock.bind((HOST,PORT))  
+
+
+  
+ #sock.listen(0)  
+
+
+  
+ print('tcpServer listen at: %s:%s\n\r' %(HOST,PORT))  
+
+  
+ while True:  
+
+
+  
+   #client_sock,client_addr=sock.accept()  
+
+  
+   #print('%s:%s connect' %client_addr)  
+
+   while True:  
+
+  
+     recv,client_addr=sock.recvfrom(BUFFER)  
+
+     if not recv:  
+
+
+       break  
+
+  
+     print('[Client %s:%s said]:%s' % (client_addr[0],client_addr[1],recv))  
+
+
+  
+     sock.sendto('tcpServer has received your message',client_addr)  
+
+  
+</pre><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 15.3999996185303px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(51, 51, 51); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="font-family: Verdana, sans-serif, 宋体; font-size: 14px; background-color: rgb(255, 255, 255);">你会发现由于udp是非连接的，不需要三次握手，所以不需要进行listen，也不需要accept，直接通信就可以了。还有就是初始化socket的时候，通过指定</span></pre><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 15.3999996185303px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(51, 51, 51); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"></pre><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 16.9400005340576px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre;">
+socket.SOCK_DGRAM  
+</pre><pre>
+ 
+</pre><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 15.3999996185303px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(51, 51, 51); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+ <br/>来实现初始化的socket是基于udp协议的。<br/>如果初始化的是udp协议的socket，就不需要listen，也不存在accept，双方通信的同时指明对方的地址和端口就可以了。<br/>对应的客户端代码:
+</pre><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 16.9400005340576px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre;"></pre><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 16.9400005340576px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre;">
+#!/usr/bin/env python  
+
+  
+ # -*- coding: UTF-8 -*-  
+ 
+ import socket  
+ 
+ HOST='192.168.0.37'  
+
+ PORT=50001  
+
+ BUFFER=4096  
+ 
+ sock=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)  
+ 
+ sock.connect((HOST,PORT))  
+ 
+  
+ sock.send('hello, tcpServer!')  
+ 
+  
+ recv=sock.recv(BUFFER)  
+ 
+  
+ print('[tcpServer said]: %s' % recv)  
+
+ 
+  
+ sock.close()  
+</pre><pre><br/> 
+</pre><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 15.3999996185303px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(51, 51, 51); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+     <br/><strong>Server：</strong> <br/> 
+</pre><div style="word-wrap: break-word; padding: 0px; margin: 0px; font-family: Verdana, sans-serif, 宋体; font-size: 14px; background-color: rgb(255, 255, 255);"><div style="word-wrap: break-word; padding: 0px; margin: 0px;"><div style="word-wrap: break-word; padding: 0px; margin: 0px;"><b>[python]</b> view plain copy print ?</div></div><p style="word-wrap: break-word; margin: 5px 0px;"><br/></p><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 15.3999996185303px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre;">
+# server  
+  
+import socket  
+  
+address = ('127.0.0.1', 31500)  
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # s = socket.socket()  
+s.bind(address)  
+s.listen(5)  
+  
+ss, addr = s.accept()  
+print 'got connected from',addr  
+  
+ss.send('byebye')  
+ra = ss.recv(512)  
+print ra  
+  
+ss.close()  
+s.close()  
+ 
+Client：
+[python] view plain copy print ?
+# client  
+  
+import socket  
+  
+address = ('127.0.0.1', 31500)  
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  
+s.connect(address)  
+  
+data = s.recv(512)  
+print 'the data received is',data  
+  
+s.send('hihi')  
+  
+s.close()  
+</pre></div><pre><br/><strong>运行结果：</strong> <br/> <br/><strong>server</strong> <br/>[work@db-testing-com06-vm3.db01.baidu.com python]$ python server.py <br/> got connected from ('127.0.0.1', 47872)<br/> hihi<br/> <br/> <br/><strong>client</strong> <br/>[work@db-testing-com06-vm3.db01.baidu.com python]$ python client.py <br/> the data received is byebye<br/> <br/>==============================================================================<br/> <br/> <strong>参考资料：</strong>http://www.cppblog.com/lai3d/archive/2008/02/19/42919.html<br/> <br/> 一个简单的服务器和客户端通信的例子<br/>服务器：<br/> 
+</pre><div style="word-wrap: break-word; padding: 0px; margin: 0px; font-family: Verdana, sans-serif, 宋体; font-size: 14px; background-color: rgb(255, 255, 255);"><span style="color: rgb(0, 0, 255);">import</span> <span style="color: rgb(0, 0, 0);"> socket<br/>
+s</span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 0);">socket.socket()<br/>
+s.bind((</span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(128, 0, 0);">xxx.xxx.xxx.xxx</span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(0, 0, 0);">,xxxx))    </span> <span style="color: rgb(0, 128, 0);">#</span> <span style="color: rgb(0, 128, 0);">ip地址和端口号</span> <span style="color: rgb(0, 128, 0);"><br/></span> <span style="color: rgb(0, 0, 0);">s.listen(</span> <span style="color: rgb(0, 0, 0);">5</span> <span style="color: rgb(0, 0, 0);">)<br/>
+cs,address </span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 0);"> s.accept()<br/></span> <span style="color: rgb(0, 0, 255);">print</span> <span style="color: rgb(0, 0, 0);"> </span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(128, 0, 0);">got connected from</span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(0, 0, 0);">,address<br/>
+cs.send(</span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(128, 0, 0);">byebye</span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(0, 0, 0);">)<br/>
+ra</span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 0);">cs.recv(</span> <span style="color: rgb(0, 0, 0);">512</span> <span style="color: rgb(0, 0, 0);">)<br/></span> <span style="color: rgb(0, 0, 255);">print</span> <span style="color: rgb(0, 0, 0);"> ra<br/>
+cs.close()</span></div><pre><br/> <br/> <br/>客户端：<br/> 
+</pre><div style="word-wrap: break-word; padding: 0px; margin: 0px; font-family: Verdana, sans-serif, 宋体; font-size: 14px; background-color: rgb(255, 255, 255);"><span style="color: rgb(0, 0, 255);">import</span> <span style="color: rgb(0, 0, 0);"> socket<br/>
+s</span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 0);">socket.socket()<br/>
+s.connect((</span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(128, 0, 0);">xxx.xxx.xxx.xxx</span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(0, 0, 0);">,xxxx))   </span> <span style="color: rgb(0, 128, 0);">#</span> <span style="color: rgb(0, 128, 0);">与服务器程序ip地址和端口号相同</span> <span style="color: rgb(0, 128, 0);"><br/></span> <span style="color: rgb(0, 0, 0);">data</span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 0);">s.recv(</span> <span style="color: rgb(0, 0, 0);">512</span> <span style="color: rgb(0, 0, 0);">)<br/>
+s.send(</span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(128, 0, 0);">hihi</span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(0, 0, 0);">)<br/>
+s.close()<br/></span> <span style="color: rgb(0, 0, 255);">print</span> <span style="color: rgb(0, 0, 0);"> </span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(128, 0, 0);">the data received is</span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(0, 0, 0);">,data</span></div><pre><br/> <br/> <br/>运行：<br/>在本机测试（windows环境下，可以将ip地址改为本机ip，端口号在1024以上，windows将1024以下的为保留），运行--CMD--进入命令行模式<br/>先python 服务器程序，后python 客户端程序即可。<br/>或者启动服务器程序后，用telnet ip地址 端口号，也可以得到同样结果。<br/>让server持续接受连接<br/>server.py<br/> 
+</pre><div style="word-wrap: break-word; padding: 0px; margin: 0px; font-family: Verdana, sans-serif, 宋体; font-size: 14px; background-color: rgb(255, 255, 255);"><span style="color: rgb(0, 0, 255);">import</span> <span style="color: rgb(0, 0, 0);"> socket<br/>
+s</span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 0);">socket.socket()<br/>
+s.bind((</span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(128, 0, 0);">192.168.43.137</span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(0, 0, 0);">,</span> <span style="color: rgb(0, 0, 0);">2000</span> <span style="color: rgb(0, 0, 0);">))<br/>
+s.listen(</span> <span style="color: rgb(0, 0, 0);">5</span> <span style="color: rgb(0, 0, 0);">)<br/><br/></span> <span style="color: rgb(0, 0, 255);">while</span> <span style="color: rgb(0, 0, 0);"> </span> <span style="color: rgb(0, 0, 0);">1</span> <span style="color: rgb(0, 0, 0);">:<br/>
+    cs,address </span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 0);"> s.accept()<br/>
+    </span> <span style="color: rgb(0, 0, 255);">print</span> <span style="color: rgb(0, 0, 0);"> </span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(128, 0, 0);">got connected from</span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(0, 0, 0);">,address<br/>
+    cs.send(</span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(128, 0, 0);">hello I am server,welcome</span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(0, 0, 0);">)<br/>
+    ra</span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 0);">cs.recv(</span> <span style="color: rgb(0, 0, 0);">512</span> <span style="color: rgb(0, 0, 0);">)<br/>
+    </span> <span style="color: rgb(0, 0, 255);">print</span> <span style="color: rgb(0, 0, 0);"> ra<br/>
+    cs.close()</span></div><pre><br/> <br/> <br/>测试两个一个程序中两个socket并存是否可行<br/> <br/> client.py
+</pre><div style="word-wrap: break-word; padding: 0px; margin: 0px; font-family: Verdana, sans-serif, 宋体; font-size: 14px; background-color: rgb(255, 255, 255);"><span style="color: rgb(0, 0, 255);">import</span> <span style="color: rgb(0, 0, 0);"> socket<br/>
+s</span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 0);">socket.socket()<br/>
+s.connect((</span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(128, 0, 0);">192.168.43.137</span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(0, 0, 0);">,</span> <span style="color: rgb(0, 0, 0);">2000</span> <span style="color: rgb(0, 0, 0);">))   <br/>
+data</span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 0);">s.recv(</span> <span style="color: rgb(0, 0, 0);">512</span> <span style="color: rgb(0, 0, 0);">)<br/></span> <span style="color: rgb(0, 0, 255);">print</span> <span style="color: rgb(0, 0, 0);"> </span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(128, 0, 0);">the data received is/n    </span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(0, 0, 0);">,data<br/>
+s.send(</span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(128, 0, 0);">hihi I am client</span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(0, 0, 0);">)<br/><br/>
+sock2 </span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 0);"> socket.socket()<br/>
+sock2.connect((</span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(128, 0, 0);">192.168.43.137</span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(0, 0, 0);">,</span> <span style="color: rgb(0, 0, 0);">2000</span> <span style="color: rgb(0, 0, 0);">))<br/>
+data2</span> <span style="color: rgb(0, 0, 0);">=</span> <span style="color: rgb(0, 0, 0);">sock2.recv(</span> <span style="color: rgb(0, 0, 0);">512</span> <span style="color: rgb(0, 0, 0);">)<br/></span> <span style="color: rgb(0, 0, 255);">print</span> <span style="color: rgb(0, 0, 0);"> </span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(128, 0, 0);">the data received from server is/n   </span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(0, 0, 0);">,data2<br/>
+sock2.send(</span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(128, 0, 0);">client send use sock2</span> <span style="color: rgb(128, 0, 0);">'</span> <span style="color: rgb(0, 0, 0);">)<br/>
+sock2.close()<br/><br/>
+s.close()</span></div><pre><br/> 
+</pre></div><div><br/></div></div></div></div></div></div></div></span>
+</div></body></html> 

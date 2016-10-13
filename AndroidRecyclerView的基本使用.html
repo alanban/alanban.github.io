@@ -1,0 +1,483 @@
+<html>
+<head>
+  <title>AndroidRecyclerView的基本使用</title>
+  <basefont face="微软雅黑" size="2" />
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="exporter-version" content="Evernote Windows/303502 (zh-CN, DDL); Windows/6.1.7601 Service Pack 1 (Win64);"/>
+  <style>
+    body, td {
+      font-family: 微软雅黑;
+      font-size: 10pt;
+    }
+  </style>
+</head>
+<body>
+<a name="757"/>
+<h1>AndroidRecyclerView的基本使用</h1>
+
+<div>
+<span><div><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-indent: 2em; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);"><br/>
+VIA:<span style="color: rgb(51, 51, 51); font-family: 'Helvetica Neue', Helvetica, Tahoma, Arial, STXihei, 'Microsoft YaHei', 微软雅黑, sans-serif; font-size: 15.5555562973022px; background-color: rgb(254, 254, 254);">【</span><span style="font-size: 14px; font-family: 'Helvetica Neue', Helvetica, Tahoma, Arial, STXihei, 'Microsoft YaHei', 微软雅黑, sans-serif; color: rgb(68, 68, 68);"><strong><a href="http://blog.csdn.net/yalinfendou" target="_blank">yalinfendou的博客</a></strong></span><span style="color: rgb(51, 51, 51); font-family: 'Helvetica Neue', Helvetica, Tahoma, Arial, STXihei, 'Microsoft YaHei', 微软雅黑, sans-serif; font-size: 15.5555562973022px; background-color: rgb(254, 254, 254);">】</span></p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-indent: 2em; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);"><br/></p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-indent: 2em; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);"><a href="http://www.it165.net/pro/ydad/" target="_blank">Android</a> RecyclerView 在去年的Google I/O大会上就推出来了，以前经常使用的ListView 继承的是AbsListView，而RecyclerView则直接继承 ViewGroup，并实现了ScrollingView 和 NestedScrollingChild接口，RecyclerView相比ListView，是一次彻底的改变，RecyclerView 比ListView更加强大灵活。</p><h3 style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; background-color: rgb(245, 248, 253);">DEMO实现功能：</h3><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-indent: 2em; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);"> </p><ul style="font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(245, 248, 253);"><li><span style="font-size: 14px;"><span style="font-family: Arial, 宋体;">RecyclerView的点击事件： Item及item中的子View添加点击事件RecyclerView Item之间添加分隔线：垂直与水平方向<br/>
+RecyclerView 单个与多个Item的添加与删除<br/>
+RecyclerView Item添加与删除动画效果RecyclerView滚动状态监听<br/>
+LayoutManager的使用</span></span><p style="word-wrap: break-word; margin: 5px 0px; text-indent: 2em;"><span style="font-size: 14px;"><span style="font-family: Arial, 宋体;"> </span></span></p><span style="font-size: 14px;"><span style="font-family: Arial, 宋体;">DEMO效果图：<br/></span></span> <img src="AndroidRecyclerView的基本使用_files/Image.gif" type="image/gif" style="border: 1px solid rgb(225, 225, 225); color: rgb(0, 0, 0); font-family: Arial, 宋体; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 28px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; width: 252px; height: 390px; background-color: rgb(245, 248, 253);"/></li></ul></div><div><br/></div><div><ul style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);"><li><h3>RecyclerView的相关的LayoutManager ItemDecoration 和 ItemAnimator</h3></li><li>LayoutManager：这个是为RecyclerView设置布局管理器的，决定RecyclerView的显示风格，它有两个直接子类：LinearLayoutManager 和 StaggeredGridLayoutManager，还有一个间接子类GridLayoutManager，GridLayoutManager继承LinearLayoutManager 。线性布局管理器 LinearLayoutManager 的布局像ListView显示多列，可以直接设置其布局方向（垂直或水平），网格布局管理器 GridLayoutManager像Gridview那样显示多行多列，而StaggeredGridLayoutManager则可以实现流式布局。</li><li>ItemDecoration：在Item之间设置分隔线和偏移，提供了三个方法：getItemOffsets，onDraw，onDrawOver。ItemDecoration的绘制是有一定的顺序的，onDraw的绘制在Item视图绘制之前，onDrawOver 的绘制在Item视图绘制之后，并将其绘制的显示在视图之上，getItemOffsets为Item设置偏移量。如果你只是想实现简单的Item之间的分割线的话，可以直接在item的XML文件中直接定义就可以了。</li><li>ItemAnimator：用来设置item的添加或者删除的动画风格，默认的动画是DefaultItemAnimator，也可以自己设置，继承RecyclerView.ItemAnimator，然后重写animateAdd，animateMove等方法就可以了。 来看看一个</li></ul><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"></p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">简单的例子： XML中添加RecyclerView：</span></p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);"><br/></span></p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"></p><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+&lt;android.support.v7.widget.RecyclerView
+android:id=&quot;@+id/recyclerview&quot;
+android:layout_width=&quot;match_parent&quot;
+android:layout_height=&quot;0dp&quot;
+android:layout_weight=&quot;1&quot;
+android:scrollbars=&quot;vertical&quot; /&gt;
+</pre><br style="color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"></p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);"><span style="font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">如果想水平排列显示，把layoutManager.setOrientation(LinearLayoutManager.VERTICAL)替换成layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL)即可。</span></span></p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);"><br/></span></p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"></p><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+// 如果布局大小一致有利于优化
+        recyclerView.setHasFixedSize(true);
+        // 创建一个线性布局管理器
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        // 设置布局管理器
+        recyclerView.setLayoutManager(layoutManager);
+        // 创建数据集
+        List&lt;User&gt; listData = new ArrayList&lt;User&gt;();
+        for (int i = 0; i &lt; 20; ++i) {
+                User uBean = new User();
+                uBean.setUsername(&quot;我是Item&quot; + i);
+                listData.add(uBean);
+        }
+
+        // 创建Adapter，并指定数据集
+        MyAdapter adapter = new MyAdapter(context, listData);
+        // 设置Adapter
+        recyclerView.setAdapter(adapter);
+</pre><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">MyAdapter：</span><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"></p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"></p><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+public class MyAdapter extends RecyclerView.Adapter&lt;MyAdapter.MViewHolder&gt; {
+
+        private Context context;
+        private List&lt;User&gt; listData;
+
+        public MyAdapter(Context context, List&lt;User&gt; mList) {
+                super();
+                this.context = context;
+                this.listData = mList;
+        }
+
+        @Override
+        public int getItemCount() {
+                // TODO Auto-generated method stub
+                return listData.size();
+        }
+
+        @Override
+        public MViewHolder onCreateViewHolder(ViewGroup viewGroup, int arg1) {
+
+                View view = View.inflate(viewGroup.getContext(),
+                                R.layout.item_user_friend_nod, null);
+                // 创建一个ViewHolder
+                MViewHolder holder = new MViewHolder(view);
+                return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(MViewHolder mViewHolder, int arg1) {
+
+                mViewHolder.mTextView.setText(listData.get(arg1).getUsername());
+                mViewHolder.image.setBackgroundResource(R.drawable.head);
+
+        }
+
+        public class MViewHolder extends RecyclerView.ViewHolder {
+                public TextView mTextView;
+                public ImageView image;
+
+                public MViewHolder(View view) {
+                        super(view);
+                        this.mTextView = (TextView) view.findViewById(R.id.tv_friend_name);
+                        this.image = (ImageView) itemView.findViewById(R.id.img_friend_avatar);
+                                        
+                }
+        }
+
+}
+</pre><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">MViewHolder是一个内部类，在其构造函数中，获取控件。 MyAdapter继承了RecyclerView.Adapter&lt;ViewHolder&gt;，并重写了getItemCount()，onCreateViewHolder和onBindViewHolder三个方法。</span><br style="color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><h3 style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; background-color: rgb(245, 248, 253);">为RecyclerView的Item及item中的子View添加点击事件</h3><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">RecyclerView并没有像ListView那样提供OnItemClickListener和OnLongClickListener的回调，为了给RecyclerView添加Onclick监听，需要自己去实现其Onclick监听方法再对外公开。</span><br style="color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">首先，定义一个接口，并在里面声明3个监听回调函数，分别是Item普通点击监听，Item长按监听和Item内部View点击监听。</span><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+/**
+ * item点击回调接口
+ * 
+ * @author wen_er
+ * 
+ */
+public interface ItemClickListener {
+
+        /**
+         * Item 普通点击
+         */
+
+        public void onItemClick(View view, int postion);
+
+        /**
+         * Item 长按
+         */
+
+        public void onItemLongClick(View view, int postion);
+
+        /**
+         * Item 内部View点击
+         */
+
+        public void onItemSubViewClick(View view, int postion);
+}
+</pre><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">然后再稍稍改造一下MyAdapter：</span><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+public class MyAdapter extends RecyclerView.Adapter&lt;MyAdapter.MViewHolder&gt; {
+
+        private Context context;
+        private List&lt;User&gt; listData;
+        private ItemClickListener mItemClickListener;
+
+        public MyAdapter(Context context, List&lt;User&gt; mList) {
+                super();
+                this.context = context;
+                this.listData = mList;
+        }
+
+        public void setItemClickListener(ItemClickListener mItemClickListener) {
+
+                this.mItemClickListener = mItemClickListener;
+        }
+
+        @Override
+        public int getItemCount() {
+                // TODO Auto-generated method stub
+                return listData.size();
+        }
+
+        @Override
+        public MViewHolder onCreateViewHolder(ViewGroup viewGroup, int arg1) {
+
+                View view = View.inflate(viewGroup.getContext(),
+                                R.layout.item_user_friend_nod, null);
+                // 创建一个ViewHolder
+                MViewHolder holder = new MViewHolder(view);
+                return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(final MViewHolder mViewHolder,
+                        final int postion) {
+
+                mViewHolder.mTextView.setText(listData.get(postion).getUsername());
+                mViewHolder.image.setBackgroundResource(R.drawable.head);
+                // 为image添加监听回调
+                mViewHolder.image.setOnClickListener(new OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+                                if (null != mItemClickListener) {
+                                        mItemClickListener.onItemSubViewClick(mViewHolder.image,
+                                                        postion);
+                                }
+
+                        }
+
+                });
+
+        }
+
+        public class MViewHolder extends RecyclerView.ViewHolder {
+                public TextView mTextView;
+                public ImageView image;
+
+                public MViewHolder(final View view) {
+                        super(view);
+                        this.mTextView = (TextView) view.findViewById(R.id.tv_friend_name);
+                        this.image = (ImageView) itemView.findViewById(R.id.img_friend_avatar);
+                        //为item添加普通点击回调         
+                        view.setOnClickListener(new OnClickListener() {
+
+                                @Override
+                                public void onClick(View v) {
+
+                                        if (null != mItemClickListener) {
+                                                mItemClickListener.onItemClick(view, getPosition());
+                                        }
+
+                                }
+                        });
+
+                        //为item添加长按回调   
+                        view.setOnLongClickListener(new OnLongClickListener() {
+
+                                @Override
+                                public boolean onLongClick(View v) {
+                                        if (null != mItemClickListener) {
+                                                mItemClickListener.onItemLongClick(view, getPosition());
+                                        }
+                                        return true;
+                                }
+                        });
+
+                }
+        }
+
+}
+</pre><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">对比以上的代码，只是在onBindViewHolder中为Item的子View添加监听回调，在MViewHolder的构造方法中为Item添加点击和长按监听回调。 最后，在MainActivity中具体实例化我们的监听事件就OK啦！</span><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"></p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"></p><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+//为Item具体实例点击3种事件
+                adapter.setItemClickListener(new ItemClickListener() {
+                        
+                        @Override
+                        public void onItemSubViewClick(View view, int postion) {
+                                T.showShort(context, &quot;亲，你点击了Image&quot;+postion);
+                                
+                        }
+                        
+                        @Override
+                        public void onItemLongClick(View view, int postion) {
+                                T.showShort(context, &quot;亲，你长按了Item&quot;+postion);
+                                
+                        }
+                        
+                        @Override
+                        public void onItemClick(View view, int postion) {
+                                T.showShort(context, &quot;亲，你点击了Item&quot;+postion);
+                                
+                        }
+                });
+</pre><h3 style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; background-color: rgb(245, 248, 253);">为Item之间添加分隔线</h3><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">如果想要给RecyclerView的Item之间添加分隔线，可以使用addItemDecoration，但如果想图方便，就直接在Item对应的XML中定义就可以了，比如说，像这样(下面的例子只适合Item垂直布局)</span><br style="color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"></p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"></p><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot; &gt;
+
+    &lt;RelativeLayout
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:background=&quot;@drawable/selector_item_action&quot; &gt;
+
+        &lt;TextView
+            android:id=&quot;@+id/tv_friend_name&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_centerVertical=&quot;true&quot;
+            android:layout_marginLeft=&quot;20dp&quot;
+            android:layout_toRightOf=&quot;@+id/img_friend_avatar&quot;
+            android:text=&quot;test&quot;
+            android:textSize=&quot;18sp&quot; /&gt;
+
+        &lt;ImageView
+            android:id=&quot;@+id/img_friend_avatar&quot;
+            android:layout_width=&quot;50dp&quot;
+            android:layout_height=&quot;50dp&quot;
+            android:layout_alignParentLeft=&quot;true&quot;
+            android:layout_marginBottom=&quot;8dip&quot;
+            android:layout_marginLeft=&quot;8dip&quot;
+            android:layout_marginTop=&quot;8dip&quot;
+            android:background=&quot;@drawable/ic_launcher&quot; /&gt;
+    &lt;/RelativeLayout&gt;
+
+    &lt;!-- 可以添加以下代码为Item之间设置分隔线  --&gt;
+   &lt;View
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;1dp&quot;
+        android:layout_alignParentBottom=&quot;true&quot;
+        android:background=&quot;@drawable/divider_horizontal_line&quot; /&gt;  
+   
+
+&lt;/RelativeLayout&gt;
+</pre><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">addItemDecoration的参数ItemDecoration需要我们重写它的onDraw,onDrawOver和getItemOffsets方法，因为item可能是水平排列，也可能是垂直排列，所以我们传入一个参数oritation值，作为item排列方向的标记，参考了Git上的代码，原来的代码当水平布局时，分隔线的高度会填满整个屏幕（Item并未填满整个屏幕），所以稍稍做了改动。</span><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"></p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"></p><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+&lt;pre name=&quot;code&quot; class=&quot;java&quot;&gt;public class ItemDecorationDivider extends ItemDecoration {
+
+        private Drawable mDivider;
+        private int mOritation;
+
+        public ItemDecorationDivider(Context context, int resId, int oritation) {
+
+                mDivider = context.getResources().getDrawable(resId);
+                this.mOritation = oritation;
+                Log.i(&quot;ItemDecorationDivider&quot;, &quot;mOritation=&quot; + mOritation);
+
+        }
+
+        @Override
+        public void onDrawOver(Canvas c, RecyclerView parent) {
+
+                if (mOritation == LinearLayoutManager.VERTICAL) {
+                        final int left = parent.getPaddingLeft();
+                        final int right = parent.getWidth() - parent.getPaddingRight();
+
+                        final int childCount = parent.getChildCount();
+                        for (int i = 0; i &lt; childCount; i++) {
+                                final View child = parent.getChildAt(i);
+                                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
+                                                .getLayoutParams();
+
+                                final int top = child.getBottom() + params.bottomMargin;
+                                final int bottom = top + mDivider.getIntrinsicHeight();
+                                mDivider.setBounds(left, top, right, bottom);
+                                mDivider.draw(c);
+                        }
+                } else if (mOritation == LinearLayoutManager.HORIZONTAL) {
+
+                        final int top = parent.getPaddingTop();
+                        // final int bottom = parent.getHeight() -
+                        // parent.getPaddingBottom();
+
+                        final int childCount = parent.getChildCount();
+                        for (int i = 0; i &lt; childCount; i++) {
+                                final View child = parent.getChildAt(i);
+                                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
+                                                .getLayoutParams();
+                                final int left = child.getRight() + params.rightMargin;
+                                final int right = left + mDivider.getIntrinsicHeight();
+
+                                final int bottom = child.getBottom();
+                                mDivider.setBounds(left, top, right, bottom);
+                                mDivider.draw(c);
+                        }
+                }
+
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, int position,
+                        RecyclerView parent) {
+                if (mOritation == LinearLayoutManager.VERTICAL) {
+                        outRect.set(0, 0, 0, mDivider.getIntrinsicWidth());
+                        // outRect.set(0, 0, 0, mDivider.getIntrinsicHeight());
+                } else if (mOritation == LinearLayoutManager.HORIZONTAL) {
+                        // outRect.set(0, 0, mDivider.getIntrinsicWidth(), 0);
+                        outRect.set(0, 0, 0, mDivider.getIntrinsicHeight());
+                }
+
+        }
+}
+</pre><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">最主要的方法在onDrawOver中， mDrawable是Item之间分隔的Drawable资源， mDrawable.setBounds(left, top, right, bottom)设置分隔线的绘制范围，再绘制出来 ， getItemOffsets为Item设置偏移量，告知RecyclerView需要绘制Item之间分隔线，然后把实现的ItemDivider作为参数传给recyclerView.addItemDecoration。</span><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+recyclerView.addItemDecoration(new ItemDecorationDivider(context,
+R.drawable.item_divider, LinearLayoutManager.VERTICAL));
+</pre><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">item_divider：</span><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:shape=&quot;rectangle&quot; &gt;
+    &lt;solid android:color=&quot;#CCCCCC&quot; /&gt;
+    &lt;size android:height=&quot;1dp&quot; /&gt;
+&lt;/shape&gt;
+</pre><h3 style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; background-color: rgb(245, 248, 253);">RecyclerView Item的添加与删除</h3><br style="color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">Adapter提供的的几个常用方法：</span><ul style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);"><li>notifyItemChanged(int position) //通知位置position的Item的数据改变</li><li style="list-style: none; display: inline"><ul><li>notifyItemInserted(int)//通知位置position的Item的数据插入</li><li>notifyItemRemoved(int)//通知位置position的Item的数据移除</li><li>notifyItemRangeChanged(int positionStart, int itemCount) //通知从位置positionStart开始，有itemCount个Item的数据发生改变</li><li>notifyItemRangeInserted(int positionStart, int itemCount) //通知从位置positionStart开始，有itemCount个Item的数据插入</li><li>notifyItemRangeRemoved(int positionStart, int itemCount)//通知从位置positionStart开始，有itemCount个Item的数据移除 主要是使用Adapter提供的notifyItemInserted(position)和notifyItemRemoved(position)方法，告知数据改变，如果删除或者添加Item都是从Position为0的位置开始，加上notifyDataSetChanged()刷新一下UI。 注意：使用notifyDataSetChanged()不会触发Item的动画效果。</li></ul></li></ul><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+&lt;/pre&gt;&lt;pre name=&quot;code&quot; class=&quot;java&quot;&gt;   /**
+         * TODO&lt;添加数据，指定其位置&gt;
+         */
+
+        public void addData(User info, int position) {
+                listData.add(position, info);
+                notifyItemInserted(position);
+        //      notifyDataSetChanged(); //不会触发Item的动画效果，告知数据改变，刷新UI
+                
+        }
+
+        /**
+         * TODO&lt;添加数据到最后面添加&gt;
+         */
+
+        public void addData(User info) {
+                // listData.add(position, info);
+                // notifyItemInserted(position);
+                listData.add(info);
+                notifyDataSetChanged();
+        }
+
+        /**
+         * TODO&lt;删除数据，指定其位置&gt;
+         */
+        public void daleteData(int position) {
+                listData.remove(position);
+                notifyItemRemoved(position);
+                
+        }
+
+        /**
+         * TODO&lt;某一位置开始，有itemCount个Item的数据删除&gt;
+         */
+        public void itemRangeRemoved(int positionStart, int itemCount) {
+                for (int i = positionStart; i &lt; itemCount; i++) {
+                        listData.remove(positionStart);
+                }
+                notifyItemRangeRemoved(positionStart, itemCount);
+        //      notifyDataSetChanged(); //不会触发Item的动画效果，告知数据改变，刷新UI
+        }
+
+        /**
+         * TODO&lt;某一位置开始，有itemCount个Item的数据插入&gt;
+         */
+        public void itemRangeInserted(User info, int positionStart, int itemCount) {
+                for (int i = positionStart; i &lt; itemCount; i++) {
+                        listData.add(i, info);
+                }
+                notifyItemRangeInserted(positionStart, itemCount);
+                // notifyDataSetChanged();
+        }
+</pre><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">直接使用：</span><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+case R.id.btn3:
+                        User uBean = new User();
+                        uBean.setUsername(&quot;我是增加的Item&quot;);
+                        adapter.addData(uBean, 0);// 添加到第一个
+                        break;
+                case R.id.btn4:
+                        adapter.daleteData(0); // 删除第一个
+                        break;
+                case R.id.btn5:
+                        User uBean1 = new User();
+                        uBean1.setUsername(&quot;我是连续添加的Item&quot;);
+                        adapter.itemRangeInserted(uBean1, 0, 5);
+                        break;
+                case R.id.btn6:
+                        adapter.itemRangeRemoved(0, 5);
+                        break;
+</pre><h3 style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; background-color: rgb(245, 248, 253);">为RecyclerView的Item添加动画</h3><br style="color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">在在ListView中，给item添加动画的常用方式是,使用LayoutAnimationController为ViewGroup添加动画，在RecyclerView中，则使用RecyclerView提供的setItemAnimator()方法</span><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+// 使用RecyclerView提供的默认的动画效果
+2.
+recyclerView.setItemAnimator(new DefaultItemAnimator());
+</pre><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">这就是我们在效果图看到的动画效果，如果想要其它的动画效果，参见GitHub：https://github.com/gabrielemariotti/RecyclerViewItemAnimators 目前提供了：ScaleInOutItemAnimator，SlideInOutBottomItemAnimator，SlideInOutLeftItemAnimator，SlideInOutRightItemAnimator，SlideInOutTopItemAnimator，SlideScaleInOutRightItemAnimator几种动画效果，使用方法相似。</span><h3 style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; background-color: rgb(245, 248, 253);"> </h3><h3 style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; background-color: rgb(245, 248, 253);">RecyclerView滚动状态监听</h3><br style="color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">RecyclerView提供了setOnScrollListener方法，以便监听屏幕滚动状态。</span><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+                        @Override
+                        public void onScrollStateChanged(RecyclerView recyclerView,
+                                        int scrollState) {
+                                updateState(scrollState);
+                        }
+
+                        @Override
+                        public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+
+                                String s = &quot;可见Item数量：&quot; + layoutManager.getChildCount()+&quot;
+&quot;
+                                                + &quot;可见Item第一个Position：&quot;
+                                                + layoutManager.findFirstVisibleItemPosition()+&quot;
+&quot;
+                                                + &quot;可见Item最后一个Position：&quot;
+                                                + layoutManager.findLastVisibleItemPosition();
+                                tv.setText(s);
+                        }
+                });
+</pre><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+private void updateState(int scrollState) {
+                String stateName = &quot;Undefined&quot;;
+                switch (scrollState) {
+                case SCROLL_STATE_IDLE:
+                        stateName = &quot;Idle&quot;;
+                        break;
+
+                case SCROLL_STATE_DRAGGING:
+                        stateName = &quot;Dragging&quot;;
+                        break;
+
+                case SCROLL_STATE_SETTLING:
+                        stateName = &quot;Flinging&quot;;
+                        break;
+                }
+
+                tv_state.setText(&quot;滑动状态：&quot; + stateName);
+        }
+</pre><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">当滚动RecyclerView的时候，效果如DEMO效果图所示。</span><br style="color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">最后看看LayoutManager，前面说过，LayoutManager是为RecyclerView设置布局管理器的，决定RecyclerView的显示风格。</span><h3 style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; background-color: rgb(245, 248, 253);">LinearLayoutManager</h3><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">前面的代码中，使用 LinearLayoutManager layoutManager = new LinearLayoutManager(this)和 layoutManager.setOrientation(LinearLayoutManager.VERTICAL)创建一个线性布局管理器和设置其布局方向 还可以使用直接以下使用构造方法传入布局方向： LinearLayoutManager(Context context, int orientation, boolean reverseLayout) 第二个参数为布局方向：LinearLayoutManager.HORIZONTAL或者LinearLayoutManager.VERTICAL 第三个参数：true或者false，决定布局是否反向</span><h3 style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; background-color: rgb(245, 248, 253);">GridLayoutManager</h3><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">这是类似GridView的网格布局，三个构造函数：</span><br style="color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">GridLayoutManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) //可以直接在XMl中设置RecyclerView 属性&quot;layoutManager&quot;. GridLayoutManager(Context context, int spanCount) //spanCount为列数，默认方向vertical</span><br style="color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">GridLayoutManager(Context context, int spanCount, int orientation, boolean reverseLayout)//spanCount为列数，orientation为布局方向，reverseLayout决定布局是否反向。</span><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+gridLayoutManager = new GridLayoutManager(this, 3,
+                                GridLayoutManager.VERTICAL, false);
+                // 设置布局管理器
+                recyclerView.setLayoutManager(gridLayoutManager);
+</pre><h3 style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; background-color: rgb(245, 248, 253);">StaggeredGridLayoutManager</h3><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">流式布局，两个构造函数：</span><br style="color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">StaggeredGridLayoutManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes)</span><br style="color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">StaggeredGridLayoutManager(int spanCount, int orientation) //spanCount为列数，orientation为布局方向</span><br style="color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"></p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"></p><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+StaggeredGridLayoutManager = new StaggeredGridLayoutManager(2,
+                                StaggeredGridLayoutManager.VERTICAL);
+                // 设置布局管理器
+                recyclerView.setLayoutManager(StaggeredGridLayoutManager);
+</pre><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">LinearLayoutManager，GridLayoutManager和StaggeredGridLayoutManager使用方法都类似，直接作为参数传给setLayoutManager就可以了。</span><br style="color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><span style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);">关于RecyclerView更深入的用法在后面的博文中介绍。</span><br style="color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"></p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);"><br/></span></p><div style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-size: 12px;"><div><span style="font-family: Arial, 宋体; font-size: 14px; background-color: rgb(245, 248, 253);"><span style="color: rgb(51, 51, 51); font-family: 'Helvetica Neue', Helvetica, Tahoma, Arial, STXihei, 'Microsoft YaHei', 微软雅黑, sans-serif; font-size: 15.5555562973022px; background-color: rgb(254, 254, 254);">转载请标明原文地址：</span><a href="http://blog.csdn.net/yalinfendou/article/details/46636409" target="_blank">http://blog.csdn.net/yalinfendou/article/details/46636409</a></span></div></div></div></span>
+</div></body></html> 

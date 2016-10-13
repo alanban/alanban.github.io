@@ -1,0 +1,115 @@
+<html>
+<head>
+  <title>图片缩放时java.lang.IllegalArgumentException: pointerIndex out of range解决方案</title>
+  <basefont face="微软雅黑" size="2" />
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="exporter-version" content="Evernote Windows/303502 (zh-CN, DDL); Windows/6.1.7601 Service Pack 1 (Win64);"/>
+  <style>
+    body, td {
+      font-family: 微软雅黑;
+      font-size: 10pt;
+    }
+  </style>
+</head>
+<body>
+<a name="724"/>
+<h1>图片缩放时java.lang.IllegalArgumentException: pointerIndex out of range解决方案</h1>
+
+<div>
+<span><div><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(51, 51, 51); font-family: Arial; font-size: 14px; background-color: rgb(255, 255, 255);">06-03 20:45:24.143: E/AndroidRuntime(1230): FATAL EXCEPTION: main<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): java.lang.IllegalArgumentException: pointerIndex out of range<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.MotionEvent.nativeGetAxisValue(Native Method)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.MotionEvent.getX(MotionEvent.java:1981)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.support.v4.view.MotionEventCompatEclair.getX(MotionEventCompatEclair.java:32)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.support.v4.view.MotionEventCompat$EclairMotionEventVersionImpl.getX(MotionEventCompat.java:91)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.support.v4.view.MotionEventCompat.getX(MotionEventCompat.java:219)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.support.v4.view.ViewPager.onInterceptTouchEvent(ViewPager.java:1768)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.ViewGroup.dispatchTouchEvent(ViewGroup.java:1935)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.ViewGroup.dispatchTransformedTouchEvent(ViewGroup.java:2289)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.ViewGroup.dispatchTouchEvent(ViewGroup.java:2032)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.ViewGroup.dispatchTransformedTouchEvent(ViewGroup.java:2289)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.ViewGroup.dispatchTouchEvent(ViewGroup.java:2032)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.ViewGroup.dispatchTransformedTouchEvent(ViewGroup.java:2289)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.ViewGroup.dispatchTouchEvent(ViewGroup.java:2032)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.ViewGroup.dispatchTransformedTouchEvent(ViewGroup.java:2289)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.ViewGroup.dispatchTouchEvent(ViewGroup.java:2032)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.ViewGroup.dispatchTransformedTouchEvent(ViewGroup.java:2289)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.ViewGroup.dispatchTouchEvent(ViewGroup.java:2032)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at com.android.internal.policy.impl.PhoneWindow$DecorView.superDispatchTouchEvent(PhoneWindow.java:2020)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at com.android.internal.policy.impl.PhoneWindow.superDispatchTouchEvent(PhoneWindow.java:1470)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.app.Activity.dispatchTouchEvent(Activity.java:2471)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at com.android.internal.policy.impl.PhoneWindow$DecorView.dispatchTouchEvent(PhoneWindow.java:1968)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.View.dispatchPointerEvent(View.java:7396)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.ViewRootImpl.deliverPointerEvent(ViewRootImpl.java:3251)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.ViewRootImpl.deliverInputEvent(ViewRootImpl.java:3196)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.ViewRootImpl.doProcessInputEvents(ViewRootImpl.java:4238)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.ViewRootImpl.enqueueInputEvent(ViewRootImpl.java:4217)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.ViewRootImpl$WindowInputEventReceiver.onInputEvent(ViewRootImpl.java:4309)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.InputEventReceiver.dispatchInputEvent(InputEventReceiver.java:171)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.InputEventReceiver.nativeConsumeBatchedInputEvents(Native Method)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.InputEventReceiver.consumeBatchedInputEvents(InputEventReceiver.java:163)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.ViewRootImpl.doConsumeBatchedInput(ViewRootImpl.java:4288)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.ViewRootImpl$ConsumeBatchedInputRunnable.run(ViewRootImpl.java:4328)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.Choreographer$CallbackRecord.run(Choreographer.java:725)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.Choreographer.doCallbacks(Choreographer.java:555)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.Choreographer.doFrame(Choreographer.java:523)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.view.Choreographer$FrameDisplayEventReceiver.run(Choreographer.java:711)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.os.Handler.handleCallback(Handler.java:615)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.os.Handler.dispatchMessage(Handler.java:92)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.os.Looper.loop(Looper.java:137)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at android.app.ActivityThread.main(ActivityThread.java:4803)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at java.lang.reflect.Method.invokeNative(Native Method)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at java.lang.reflect.Method.invoke(Method.java:511)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:789)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:556)<br/>
+06-03 20:45:24.143: E/AndroidRuntime(1230): at dalvik.system.NativeStart.main(Native Method)<br/>
+06-03 20:45:26.773: E/Trace(1281): error opening trace file: No such file or directory (2)</p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(51, 51, 51); font-family: Arial; font-size: 14px; background-color: rgb(255, 255, 255);">一个问题，两天时间，搜破了百度没有啥成效。只有这点东西,到处转的，没有说明怎么用。帮助不大！百度上仅有的点内容如下：</p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(51, 51, 51); font-family: Arial; font-size: 14px; background-color: rgb(255, 255, 255);">=========================================================================================================</p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(51, 51, 51); font-family: Arial; font-size: 14px; background-color: rgb(255, 255, 255);"><span style="font-family: 宋体;">在做多点触控放大缩小，操作自己所绘制的图形时发生这个异常，如果是操作图片的放大缩小多点触控不会出现这个错误</span><br/><span style="font-family: 宋体;"> </span><br/><span style="font-family: 宋体;">这个bug是</span><a href="http://www.2cto.com/kf/yidong/Android/" target="_blank">Android</a><a href="http://www.2cto.com/os/" target="_blank">系统</a><span style="font-family: 宋体;">原因   所以第一种方式是：</span><br/><span style="font-family: 宋体;"> </span><br/><span style="font-family: 宋体;">修改frameworks\base\core\jni\android_view_MotionEvent.cpp的android_view_MotionEvent_nativeGetAxisValue方法</span><br/><span style="font-family: 宋体;"> </span><br/><span style="font-family: 宋体;">注释掉</span><br/><span style="font-family: 宋体;">[java]</span><br/><span style="font-family: 宋体;">if (!validatePointerIndex(env, pointerIndex, pointerCount)) {return 0;｝ </span><br/><span style="font-family: 宋体;">改完后需重新编译整个系统，然后替换lib库，重新编译整个系统一般需要半个多小时，这个方法就比较麻烦了</span><br/><span style="font-family: 宋体;"> </span><br/><span style="font-family: 宋体;">第二种方法是：捕获IllegalArgumentException（非法参数异常）异常 即如</span><br/><span style="font-family: 宋体;">[java] </span><br/><span style="font-family: 宋体;">private float spacing(MotionEvent event) { </span><br/><span style="font-family: 宋体;">        try { </span><br/><span style="font-family: 宋体;">        x = event.getX(0) - event.getX(1); </span><br/><span style="font-family: 宋体;">        y = event.getY(0) - event.getY(1); </span><br/><span style="font-family: 宋体;">    } catch (IllegalArgumentException e) { </span><br/><span style="font-family: 宋体;">        // TODO Auto-generated catch block </span><br/><span style="font-family: 宋体;">        e.printStackTrace(); </span><br/><span style="font-family: 宋体;">    } </span><br/><span style="font-family: 宋体;">    第二种方法简单有效</span></p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(51, 51, 51); font-family: Arial; font-size: 14px; background-color: rgb(255, 255, 255);"><span style="font-family: 宋体;">========================================================================================================</span></p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(51, 51, 51); font-family: Arial; font-size: 14px; background-color: rgb(255, 255, 255);">这种方法我不会用，不知道该用在哪儿。</p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(51, 51, 51); font-family: Arial; font-size: 14px; background-color: rgb(255, 255, 255);"><br/></p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(51, 51, 51); font-family: Arial; font-size: 14px; background-color: rgb(255, 255, 255);"><span style="font-family: 宋体;">接着用谷歌搜索，顺着</span><span style="font-family: 宋体;"><span style="color: rgb(255, 0, 0);">终于找到了解决方案</span></span><span style="font-family: 宋体;">。经历了以下网站：</span></p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(51, 51, 51); font-family: Arial; font-size: 14px; background-color: rgb(255, 255, 255);"><span style="font-family: 宋体;">http://stackoverflow.com/questions/6919292/pointerindex-out-of-range-android-multitouch<br/></span></p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(51, 51, 51); font-family: Arial; font-size: 14px; background-color: rgb(255, 255, 255);"><span style="font-family: 宋体;">https://code.google.com/p/android/issues/detail?id=18990</span></p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(51, 51, 51); font-family: Arial; font-size: 14px; background-color: rgb(255, 255, 255);"><span style="font-family: 宋体;">https://github.com/chrisbanes/PhotoView/issues/31<br/></span></p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(51, 51, 51); font-family: Arial; font-size: 14px; background-color: rgb(255, 255, 255);"><br/></p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(51, 51, 51); font-family: Arial; font-size: 14px; background-color: rgb(255, 255, 255);">上面是搜索的过程，现在把精华内容拣出来:<span style="color: rgb(255, 102, 102);">思路是自定义ViewPager，重写onTouchEvent 和onInterceptTouchEvent。具体见下：</span></p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(51, 51, 51); font-size: 14px; font-family: Helvetica, arial, freesans, clean, sans-serif; background-color: rgb(255, 255, 255);">It's the android ViewPager's bug<br/>
+stackoverflow's report: <a href="http://stackoverflow.com/questions/6919292/pointerindex-out-of-range-android-multitouch" target="_blank">http://stackoverflow.com/questions/6919292/pointerindex-out-of-range-android-multitouch</a><br/>
+android's report: <a href="http://code.google.com/p/android/issues/detail?id=18990" target="_blank">http://code.google.com/p/android/issues/detail?id=18990</a></p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(51, 51, 51); font-size: 14px; font-family: Helvetica, arial, freesans, clean, sans-serif; background-color: rgb(255, 255, 255);">My simple's method to fix this bug:<br/>
+You can extends the ViewPager class, your own ViewPager should override the onTouchEvent and the onInterceptTouchEvent methods, and try-catch the IllegalArgumentException exception. Then use your own ViewPager class in layout or others you want.</p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(51, 51, 51); font-size: 14px; font-family: Helvetica, arial, freesans, clean, sans-serif; background-color: rgb(255, 255, 255);">Examples：</p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(51, 51, 51); font-size: 14px; font-family: Helvetica, arial, freesans, clean, sans-serif; background-color: rgb(255, 255, 255);"></p><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+/** Custom your own ViewPager to extends support ViewPager. java source: */
+/** Created by azi on 2013-6-21.  */
+
+package com.chaokuadi.android.support.view;
+
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+
+public class ViewPagerFixed extends android.support.v4.view.ViewPager {
+
+    public ViewPagerFixed(Context context) {
+        super(context);
+    }
+
+    public ViewPagerFixed(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        try {
+            return super.onTouchEvent(ev);
+        } catch (IllegalArgumentException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        try {
+            return super.onInterceptTouchEvent(ev);
+        } catch (IllegalArgumentException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+}
+</pre><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"></p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(51, 51, 51); font-size: 14px; font-family: Helvetica, arial, freesans, clean, sans-serif; background-color: rgb(255, 255, 255);"></p><div style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">/** ViewPager layout */<br/>
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;<br/>
+&lt;com.chaokuaidi.android.support.view.ViewPagerFixed xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;<br/>
+    android:id=&quot;@+id/pager&quot;<br/>
+    android:layout_width=&quot;fill_parent&quot;<br/>
+    android:layout_height=&quot;fill_parent&quot; /&gt;<br/></div></div></span>
+</div></body></html> 

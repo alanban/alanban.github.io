@@ -1,0 +1,38 @@
+<html>
+<head>
+  <title>handler.loop.messageQueue介绍和工作原理</title>
+  <basefont face="微软雅黑" size="2" />
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="exporter-version" content="Evernote Windows/303502 (zh-CN, DDL); Windows/6.1.7601 Service Pack 1 (Win64);"/>
+  <style>
+    body, td {
+      font-family: 微软雅黑;
+      font-size: 10pt;
+    }
+  </style>
+</head>
+<body>
+<a name="323"/>
+<h1>handler.loop.messageQueue介绍和工作原理</h1>
+
+<div>
+<span><div>     1.handle的消息传递机制</div><div>          安卓的UI线程不是安全的，为了解决这个问题，安卓指定了：只允许UI线程修改UI</div><div>          而handle消息传递机制就是另外一种形式的“事件处理”机制，就像各个系统处理进程似的，新启动的线程，可以通过handle传递机制来修改UI界面的值或UI了。</div><div>     2.handle 介绍：</div><ul><li>在新启动的线程中发送消息</li><li>在主线程中获取，处理消息</li></ul><div>     在新启动的线程中发送消息；然后再主线程中获取并处理消息。</div><div>     为了解决何时发送何时处理，只能通过回调的方式来实现。</div><div>     当我们重写了handle类中处理消息的方法（handleMeaage（）），然后在新启动的线程中发送消息时，消息会被送到与之关联的MessageQueue，而handle则会不断的从MessageQueue中取出并处理这些消息（这时回调）。</div><div><br/></div><div>     handle类中有这些用于处理，发送消息的函数：</div><ul><li>void handleMessage(Message msg):处理消息的回调方法，通常在handle声明后重写；</li><li>final boolean hasMessages(int what):检索MessageQueque队列中是否包含有参数中的值所对应的Message；</li><li>final boolean hasMessages(int what,Object object):检索MessageQueque 队列中是否有参数what和对象object所对应的Message；</li><li>sendEmptyMessage（int what）:发送空消息，可以指定message中的what值（ps我认为就不算empty）；</li><li>final boolean sendEmptyMessageDelayed(int what,long delayMilis):延迟多少秒后发送空消息。</li></ul><div>例子：使用Timer在新起的线程中定时发送handle消息来动态修改ImageView中的图片资源</div><div style="background-color:#ffffff;color:#000000;font-family:'宋体';font-size:9.0pt;"><span style="color:#000080;background-color:#e4e4ff;font-weight:bold;">import</span><span style="color:#000080;font-weight:bold;"> </span>android.os.Handler;<br/><span style="color:#000080;font-weight:bold;">import </span>android.os.Message;<br/><span style="color:#000080;font-weight:bold;">import </span>android.support.v7.app.AppCompatActivity;<br/><span style="color:#000080;font-weight:bold;">import </span>android.os.Bundle;<br/><span style="color:#000080;font-weight:bold;">import </span>android.widget.ImageView;<br/><br/><span style="color:#000080;font-weight:bold;">import </span>java.util.Timer;<br/><span style="color:#000080;font-weight:bold;">import </span>java.util.TimerTask;<br/><br/><br/><span style="color:#000080;font-weight:bold;">public class </span>MainActivity <span style="color:#000080;font-weight:bold;">extends </span>AppCompatActivity {<br/>
+ImageView <span style="color:#660e7a;font-weight:bold;">imageView</span>;</div><div><span style="font-size: 9pt;"><span style="font-family: 宋体;">    <span style="color:#000080;font-weight:bold;">int</span>[] <span style="color:#660e7a;font-weight:bold;">number</span>={</span></span></div><div style="background-color:#ffffff;color:#000000;font-family:'宋体';font-size:9.0pt;">            R.mipmap.<span style="color:#660e7a;font-weight:bold;font-style:italic;">ic_surface</span>,<br/>
+            R.mipmap.<span style="color:#660e7a;font-weight:bold;font-style:italic;">ic_surface2<br/></span><span style="color:#660e7a;font-weight:bold;font-style:italic;">   </span> };<br/>
+    <span style="color:#000080;font-weight:bold;">int </span><span style="color:#660e7a;font-weight:bold;">currentInamgenumber</span>=<span style="color:#0000ff;">0</span>;<br/>
+    <span style="color:#808000;">@Override<br/></span><span style="color:#808000;">   </span> <span style="color:#000080;font-weight:bold;">protected void </span>onCreate(Bundle savedInstanceState) {<br/>
+        <span style="color:#000080;font-weight:bold;">super</span>.onCreate(savedInstanceState);<br/>
+        setContentView(R.layout.<span style="color:#660e7a;font-weight:bold;font-style:italic;">activity_main</span>);<br/>
+        <span style="color:#000080;font-weight:bold;">this</span>.<span style="color:#660e7a;font-weight:bold;">imageView</span>=(ImageView)findViewById(R.id.<span style="color:#660e7a;font-weight:bold;font-style:italic;">imageView</span>);<br/>
+        <span style="color:#000080;font-weight:bold;">final </span><span style="background-color:#e4e4ff;">Handler</span> myhandle=<span style="color:#000080;font-weight:bold;">new </span><span style="background-color:#e4e4ff;">Handler</span>(){<br/>
+            <span style="color:#808000;">@Override<br/></span><span style="color:#808000;">           </span> <span style="color:#000080;font-weight:bold;">public void </span>handleMessage(Message msg) {</div><div><span style="font-size: 9pt;"><span style="font-family: 宋体;">                <span style="color:#000080;font-weight:bold;">if</span>(msg.<span style="color:#660e7a;font-weight:bold;">what</span>==<span style="color:#0000ff;">0x1</span>){ <span style="color:#808080;font-style:italic;">//如果发送的消息是0x1</span></span></span></div><div style="background-color:#ffffff;color:#000000;font-family:'宋体';font-size:9.0pt;"><span style="color:#808080;font-style:italic;">                   </span> <span style="color:#660e7a;font-weight:bold;">imageView</span>.setImageResource(<span style="color:#660e7a;font-weight:bold;">number</span>[<span style="color:#660e7a;font-weight:bold;">currentInamgenumber</span>++%<span style="color:#660e7a;font-weight:bold;">number</span>.<span style="color:#660e7a;font-weight:bold;">length</span>]);<span style="color:#808080;font-style:italic;">//则动态修改图片资源<br/></span><span style="color:#808080;font-style:italic;">                    //currentInamgenumber余上总数。当当前数为数组长度时，余数为0<br/></span><span style="color:#808080;font-style:italic;">               </span> }<br/>
+            }<br/>
+        };<br/>
+        <span style="color:#000080;font-weight:bold;">new </span>Timer().schedule(<span style="color:#000080;font-weight:bold;">new </span>TimerTask() {<br/>
+            <span style="color:#808000;">@Override<br/></span><span style="color:#808000;">           </span> <span style="color:#000080;font-weight:bold;">public void </span>run() {<br/>
+                <span style="color:#660e7a;">myhandle</span>.sendEmptyMessage(<span style="color:#0000ff;">0x1</span>);//发送what值为0x1的Message<br/>
+            }<br/>
+        },<span style="color:#0000ff;">0</span>,<span style="color:#0000ff;">2400</span>);<br/><br/>
+    }<br/>
+}<br/></div><div><br/></div><div><hr/></div><div>handle的工作原理：</div><div>一：与handle一起工作的组件：</div><ol><li>Message：handle用于发送和接收的消息对象。</li><li>looper：每个线程只能拥有一个looper，它的loop方法负责读取MessageQueue中的消息，读到消息之后把消息交给发送该消息的Handle来处理。</li><li>MessageQueue：消息池，采用先进先出方式来管理消息队列。当创建looper对象时，会在他的构造器中创建MessageQueue对象，而因为looper的构造方法是由private修饰的，所以程序员无法使用looper的构造器来创建looper对象。直接使用即可（在代码处直接写looper.prepare()准备和looper,loop()启动接收消息）</li></ol><div>对于handle，它有两个作用，那就是既接收处理消息，也发送消息。由handle发送的消息必须送到这个handle的MessageQueue中，所有在线程中必须得有一个MessageQueue，不然就没地方保存了。MessageQueue又是由Looper来创建管理，所有要想Handle正常工作，就得在线程中拥有一个looper对象。下面列出在两种情况中保证拥有looper：</div><ul><li>在UI线程中，系统已经初始化了一个looper对象，所有我们可以直接创建Handle并使用。</li><li>在我们自己启动的新线程中，必须自己创建一个looper对象，并启动。（创建looper对象直接调用looper类的方法prepare（）就可以）</li></ul><div>接着调用looper类的loop（）方法来启动looper。loop（）是一个死循环，它不断的从MessageQueue中消息，并且发送给发送该条消息的Handle来处理。</div><div>二：总结</div><ul><li>looper：每个线程有且只能有一个looper对象。looper对象构造方法中会创建MessageQueue消息池。looper用于分发MessageQueue中的消息</li><li>MessageQueue：采用先进先出的方式管理Message队列。有Looper对象来创建和管理</li><li>Handle：发送和处理消息。发送是指发送给Looper管理的MessageQueue消息池。处理是指处理由looper分发的消息。</li></ul><div>三：在线程中使用Handler的步骤:</div><ol><li>     调用Looper的prepare（）方法为新启动的线程创建Looper对象。looper对象会在构造器重创建MessageQueue消息池</li><li>创建Handler子类的实例。重写handleMessage（Message msg）方法来处理来自其他线程的消息。</li><li>调用Looper的Loop（）方法来循环分发处理MessageQueue队列中的消息。</li></ol><div><br/></div><div><hr/></div><div>我认为handle写在UI线程。方便，然后在新线程中调用这个handle的send方法来发送消息。而handle会在UI线程中处理这个消息并更改UI。</div></span>
+</div></body></html> 

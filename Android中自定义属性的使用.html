@@ -1,0 +1,220 @@
+<html>
+<head>
+  <title>Android中自定义属性的使用</title>
+  <basefont face="微软雅黑" size="2" />
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="exporter-version" content="Evernote Windows/303502 (zh-CN, DDL); Windows/6.1.7601 Service Pack 1 (Win64);"/>
+  <style>
+    body, td {
+      font-family: 微软雅黑;
+      font-size: 10pt;
+    }
+  </style>
+</head>
+<body>
+<a name="614"/>
+<h1>Android中自定义属性的使用</h1>
+
+<div>
+<span><div><div style="word-wrap: break-word; color: rgb(0, 0, 0); font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Consolas, 'Courier New', Courier, mono, serif; margin: 18px 0px !important; background-color: rgb(231, 229, 220);"><ol style="color: rgb(92, 92, 92); background-color: rgb(255, 255, 255);"><li style="color: inherit;"><span style="color: black; background-color: inherit;"><span style="color: rgb(0, 102, 153); font-weight: bold; background-color: inherit;">private</span><span style="background-color: inherit;"> </span><span style="color: rgb(0, 102, 153); font-weight: bold; background-color: inherit;">void</span><span style="background-color: inherit;"> init(Context context, AttributeSet attributeSet) {  </span></span></li><li style="background-color: rgb(248, 248, 248);"><span style="color: black; background-color: inherit;">       <span style="color: rgb(0, 102, 153); font-weight: bold; background-color: inherit;">if</span><span style="background-color: inherit;"> (attributeSet != </span><span style="color: rgb(0, 102, 153); font-weight: bold; background-color: inherit;">null</span><span style="background-color: inherit;">) {  </span></span></li><li style="color: inherit;"><span style="color: black; background-color: inherit;">           TypedArray a = context.obtainStyledAttributes(attributeSet, R.styleable.RoundAngleImageView);  </span></li><li style="background-color: rgb(248, 248, 248);"><span style="color: black; background-color: inherit;">           <span style="color: rgb(0, 102, 153); font-weight: bold; background-color: inherit;">assert</span><span style="background-color: inherit;"> a != </span><span style="color: rgb(0, 102, 153); font-weight: bold; background-color: inherit;">null</span><span style="background-color: inherit;">;  </span></span></li><li style="color: inherit;"><span style="color: black; background-color: inherit;">           roundWidth = a.getDimensionPixelSize(R.styleable.RoundAngleImageView_roundWidth, roundWidth);  </span></li><li style="background-color: rgb(248, 248, 248);"><span style="color: black; background-color: inherit;">           roundHeight = a.getDimensionPixelSize(R.styleable.RoundAngleImageView_roundHeight, roundHeight);  </span></li><li style="color: inherit;"><span style="color: black; background-color: inherit;">       } <span style="color: rgb(0, 102, 153); font-weight: bold; background-color: inherit;">else</span><span style="background-color: inherit;"> {  </span></span></li><li style="background-color: rgb(248, 248, 248);"><span style="color: black; background-color: inherit;">           <span style="color: rgb(0, 102, 153); font-weight: bold; background-color: inherit;">float</span><span style="background-color: inherit;"> density = context.getResources().getDisplayMetrics().density;  </span></span></li><li style="color: inherit;"><span style="color: black; background-color: inherit;">           roundWidth = (<span style="color: rgb(0, 102, 153); font-weight: bold; background-color: inherit;">int</span><span style="background-color: inherit;">) (roundWidth * density);  </span></span></li><li style="background-color: rgb(248, 248, 248);"><span style="color: black; background-color: inherit;">           roundHeight = (<span style="color: rgb(0, 102, 153); font-weight: bold; background-color: inherit;">int</span><span style="background-color: inherit;">) (roundHeight * density);  </span></span></li><li style="color: inherit;"><span style="color: black; background-color: inherit;">       }  </span></li><li style="background-color: rgb(248, 248, 248);"><span style="color: black; background-color: inherit;">  </span></li><li style="color: inherit;"><span style="color: black; background-color: inherit;">       paint = <span style="color: rgb(0, 102, 153); font-weight: bold; background-color: inherit;">new</span><span style="background-color: inherit;"> Paint();  </span></span></li><li style="background-color: rgb(248, 248, 248);"><span style="color: black; background-color: inherit;">       paint.setColor(Color.WHITE);  </span></li><li style="color: inherit;"><span style="color: black; background-color: inherit;">       paint.setAntiAlias(<span style="color: rgb(0, 102, 153); font-weight: bold; background-color: inherit;">true</span><span style="background-color: inherit;">);  </span></span></li><li style="background-color: rgb(248, 248, 248);"><span style="color: black; background-color: inherit;">       paint.setXfermode(<span style="color: rgb(0, 102, 153); font-weight: bold; background-color: inherit;">new</span><span style="background-color: inherit;"> PorterDuffXfermode(PorterDuff.Mode.DST_OUT));  </span></span></li><li style="color: inherit;"><span style="color: black; background-color: inherit;">  </span></li><li style="background-color: rgb(248, 248, 248);"><span style="color: black; background-color: inherit;">       paint2 = <span style="color: rgb(0, 102, 153); font-weight: bold; background-color: inherit;">new</span><span style="background-color: inherit;"> Paint();  </span></span></li><li style="color: inherit;"><span style="color: black; background-color: inherit;">       paint2.setXfermode(<span style="color: rgb(0, 102, 153); font-weight: bold; background-color: inherit;">null</span><span style="background-color: inherit;">);  </span></span></li><li style="background-color: rgb(248, 248, 248);"><span style="color: black; background-color: inherit;">      a.recycle();<span style="color: rgb(0, 130, 0); background-color: inherit;">//为了保持以后使用的一致性，需要回收</span><span style="background-color: inherit;">  </span></span></li></ol></div><br style="color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><br style="color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; font-family: Arial; font-size: 14px; background-color: rgb(255, 255, 255);"><span style="font-size: 18px;">注意最后调用TypedArray的recycle方法。<br/><br/>
+以上三步，搞定。</span></p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"></p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><br/></p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><br/></p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><br/></p><hr style="color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><a href="http://www.cnblogs.com/ufocdy/archive/2011/05/27/2060221.html" target="_blank"><span style="color: rgb(51, 51, 51); font-family: Arial; font-size: 14px; background-color: rgb(255, 255, 255);"><u>attrs.xml format属性说明：</u></span></a></p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">    &quot;reference&quot; //引用<br/>
+    &quot;color&quot; //颜色<br/>
+    &quot;boolean&quot; //布尔值<br/>
+    &quot;dimension&quot; //尺寸值<br/>
+    &quot;float&quot; //浮点值<br/>
+    &quot;integer&quot; //整型值<br/>
+    &quot;string&quot; //字符串<br/>
+    &quot;fraction&quot; //百分数,比如200%</p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">    </p><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+枚举型的格式：
+&lt;attr name=&quot;orientation&quot;&gt;
+  &lt;enum name=&quot;horizontal&quot; value=&quot;0&quot; /&gt;
+  &lt;enum name=&quot;vertical&quot; value=&quot;1&quot; /&gt;
+&lt;/attr&gt;
+</pre><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><br/></p><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+XML文件中使用：  
+android:orientation = &quot;vertical&quot;  
+</pre><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><br/></p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><br/></p><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+标志位、位或运算，格式如下：
+&lt;attr name=&quot;windowSoftInputMode&quot;&gt;
+  &lt;flag name = &quot;stateUnspecified&quot; value = &quot;0&quot; /&gt;
+  &lt;flag name = &quot;stateUnchanged&quot; value = &quot;1&quot; /&gt;
+  &lt;flag name = &quot;stateHidden&quot; value = &quot;2&quot; /&gt;
+  &lt;flag name = &quot;stateAlwaysHidden&quot; value = &quot;3&quot; /&gt;
+  &lt;flag name = &quot;stateVisible&quot; value = &quot;4&quot; /&gt;
+  &lt;flag name = &quot;stateAlwaysVisible&quot; value = &quot;5&quot; /&gt;
+  &lt;flag name = &quot;adjustUnspecified&quot; value = &quot;0x00&quot; /&gt;
+  &lt;flag name = &quot;adjustResize&quot; value = &quot;0x10&quot; /&gt;
+  &lt;flag name = &quot;adjustPan&quot; value = &quot;0x20&quot; /&gt;
+  &lt;flag name = &quot;adjustNothing&quot; value = &quot;0x30&quot; /&gt;
+&lt;/attr&gt;
+</pre><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+XML文件中使用：
+android:windowSoftInputMode = &quot;stateUnspecified | stateUnchanged | stateHidden&quot;&gt; &amp;nbsp;
+</pre><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+属性定义可以指定多种类型：
+&lt;attr name = &quot;background&quot; format = &quot;reference|color&quot; /&gt; &amp;nbsp;
+
+XML文件中使用：
+android:background = &quot;@drawable/图片ID|#00FF00&quot;  
+</pre><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><br/></p><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><br/></p><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+1. reference：参考某一资源ID。
+    （1）属性定义：
+           &lt;declare-styleable name = &quot;名称&quot;&gt;
+                  &lt;attr name = &quot;background&quot; format = &quot;reference&quot; /&gt;
+           &lt;/declare-styleable&gt;
+    （2）属性使用：
+            &lt;ImageView
+                    android:layout_width = &quot;42dip&quot;
+                    android:layout_height = &quot;42dip&quot;
+                    android:background = &quot;@drawable/图片ID&quot;
+                    /&gt;
+2. color：颜色值。
+    （1）属性定义：
+           &lt;declare-styleable name = &quot;名称&quot;&gt;
+                  &lt;attr name = &quot;textColor&quot; format = &quot;color&quot; /&gt;
+           &lt;/declare-styleable&gt;
+    （2）属性使用：
+            &lt;TextView
+                    android:layout_width = &quot;42dip&quot;
+                    android:layout_height = &quot;42dip&quot;
+                    android:textColor = &quot;#00FF00&quot;
+                    /&gt;
+3. boolean：布尔值。
+    （1）属性定义：
+           &lt;declare-styleable name = &quot;名称&quot;&gt;
+                  &lt;attr name = &quot;focusable&quot; format = &quot;boolean&quot; /&gt;
+           &lt;/declare-styleable&gt;
+    （2）属性使用：
+            &lt;Button
+                   android:layout_width = &quot;42dip&quot;
+                   android:layout_height = &quot;42dip&quot;
+                   android:focusable = &quot;true&quot;
+                   /&gt;
+4. dimension：尺寸值。
+    （1）属性定义：
+           &lt;declare-styleable name = &quot;名称&quot;&gt;
+                  &lt;attr name = &quot;layout_width&quot; format = &quot;dimension&quot; /&gt;
+           &lt;/declare-styleable&gt;
+    （2）属性使用：
+            &lt;Button
+                   android:layout_width = &quot;42dip&quot;
+                   android:layout_height = &quot;42dip&quot;
+                   /&gt;
+5. float：浮点值。
+    （1）属性定义：
+           &lt;declare-styleable name = &quot;AlphaAnimation&quot;&gt;
+                  &lt;attr name = &quot;fromAlpha&quot; format = &quot;float&quot; /&gt;
+                  &lt;attr name = &quot;toAlpha&quot; format = &quot;float&quot; /&gt;
+           &lt;/declare-styleable&gt;
+    （2）属性使用：
+            &lt;alpha
+                  android:fromAlpha = &quot;1.0&quot;
+                  android:toAlpha = &quot;0.7&quot;
+                  /&gt;
+6. integer：整型值。
+    （1）属性定义：
+           &lt;declare-styleable name = &quot;AnimatedRotateDrawable&quot;&gt;
+                  &lt;attr name = &quot;visible&quot; /&gt;
+                  &lt;attr name = &quot;frameDuration&quot; format=&quot;integer&quot; /&gt;
+                  &lt;attr name = &quot;framesCount&quot; format=&quot;integer&quot; /&gt;
+                  &lt;attr name = &quot;pivotX&quot; /&gt;
+                  &lt;attr name = &quot;pivotY&quot; /&gt;
+                  &lt;attr name = &quot;drawable&quot; /&gt;
+           &lt;/declare-styleable&gt;
+    （2）属性使用：
+           &lt;animated-rotate
+                  xmlns:android = &quot;http://schemas.android.com/apk/res/android&quot; 
+                  android:drawable = &quot;@drawable/图片ID&quot; 
+                  android:pivotX = &quot;50%&quot; 
+                  android:pivotY = &quot;50%&quot; 
+                  android:framesCount = &quot;12&quot; 
+                  android:frameDuration = &quot;100&quot;
+                  /&gt;
+7. string：字符串。
+    （1）属性定义：
+           &lt;declare-styleable name = &quot;MapView&quot;&gt;
+                  &lt;attr name = &quot;apiKey&quot; format = &quot;string&quot; /&gt;
+           &lt;/declare-styleable&gt;
+    （2）属性使用：
+           &lt;com.google.android.maps.MapView
+                   android:layout_width = &quot;fill_parent&quot;
+                   android:layout_height = &quot;fill_parent&quot;
+                   android:apiKey = &quot;0jOkQ80oD1JL9C6HAja99uGXCRiS2CGjKO_bc_g&quot;
+                   /&gt;
+8. fraction：百分数。
+    （1）属性定义：
+           &lt;declare-styleable name=&quot;RotateDrawable&quot;&gt;
+                  &lt;attr name = &quot;visible&quot; /&gt;
+                  &lt;attr name = &quot;fromDegrees&quot; format = &quot;float&quot; /&gt;
+                  &lt;attr name = &quot;toDegrees&quot; format = &quot;float&quot; /&gt;
+                  &lt;attr name = &quot;pivotX&quot; format = &quot;fraction&quot; /&gt;
+                  &lt;attr name = &quot;pivotY&quot; format = &quot;fraction&quot; /&gt;
+                  &lt;attr name = &quot;drawable&quot; /&gt;
+           &lt;/declare-styleable&gt;
+    （2）属性使用：
+           &lt;rotate  xmlns:android = &quot;http://schemas.android.com/apk/res/android&quot;
+　　            android:interpolator = &quot;@anim/动画ID&quot;
+                android:fromDegrees = &quot;0&quot;
+　　            android:toDegrees = &quot;360&quot;
+                android:pivotX = &quot;200%&quot;
+                android:pivotY = &quot;300%&quot;
+　　            android:duration = &quot;5000&quot;
+                android:repeatMode = &quot;restart&quot;
+                android:repeatCount = &quot;infinite&quot;
+                  /&gt;
+9. enum：枚举值。
+    （1）属性定义：
+           &lt;declare-styleable name=&quot;名称&quot;&gt;
+                  &lt;attr name=&quot;orientation&quot;&gt;
+                         &lt;enum name=&quot;horizontal&quot; value=&quot;0&quot; /&gt;
+                         &lt;enum name=&quot;vertical&quot; value=&quot;1&quot; /&gt;
+                  &lt;/attr&gt;           
+           &lt;/declare-styleable&gt;
+    （2）属性使用：
+           &lt;LinearLayout
+                   xmlns:android = &quot;http://schemas.android.com/apk/res/android&quot;
+                   android:orientation = &quot;vertical&quot;
+                   android:layout_width = &quot;fill_parent&quot;
+                   android:layout_height = &quot;fill_parent&quot;
+                   &gt;
+           &lt;/LinearLayout&gt;
+10. flag：位或运算。
+     （1）属性定义：
+            &lt;declare-styleable name=&quot;名称&quot;&gt;
+                   &lt;attr name=&quot;windowSoftInputMode&quot;&gt;
+                           &lt;flag name = &quot;stateUnspecified&quot; value = &quot;0&quot; /&gt;
+                           &lt;flag name = &quot;stateUnchanged&quot; value = &quot;1&quot; /&gt;
+                           &lt;flag name = &quot;stateHidden&quot; value = &quot;2&quot; /&gt;
+                           &lt;flag name = &quot;stateAlwaysHidden&quot; value = &quot;3&quot; /&gt;
+                           &lt;flag name = &quot;stateVisible&quot; value = &quot;4&quot; /&gt;
+                           &lt;flag name = &quot;stateAlwaysVisible&quot; value = &quot;5&quot; /&gt;
+                           &lt;flag name = &quot;adjustUnspecified&quot; value = &quot;0x00&quot; /&gt;
+                           &lt;flag name = &quot;adjustResize&quot; value = &quot;0x10&quot; /&gt;
+                           &lt;flag name = &quot;adjustPan&quot; value = &quot;0x20&quot; /&gt;
+                           &lt;flag name = &quot;adjustNothing&quot; value = &quot;0x30&quot; /&gt;
+                    &lt;/attr&gt;        
+            &lt;/declare-styleable&gt;
+     （2）属性使用：
+            &lt;activity
+                  android:name = &quot;.StyleAndThemeActivity&quot;
+                  android:label = &quot;@string/app_name&quot;
+                  android:windowSoftInputMode = &quot;stateUnspecified | stateUnchanged　|　stateHidden&quot;&gt;
+                  &lt;intent-filter&gt;
+                         &lt;action android:name = &quot;android.intent.action.MAIN&quot; /&gt;
+                         &lt;category android:name = &quot;android.intent.category.LAUNCHER&quot; /&gt;
+                  &lt;/intent-filter&gt;
+            &lt;/activity&gt;
+     注意：
+     属性定义时可以指定多种类型值。
+    （1）属性定义：
+           &lt;declare-styleable name = &quot;名称&quot;&gt;
+                  &lt;attr name = &quot;background&quot; format = &quot;reference|color&quot;/&gt;
+           &lt;/declare-styleable&gt;
+    （2）属性使用：
+            &lt;ImageView
+                    android:layout_width = &quot;42dip&quot;
+                    android:layout_height = &quot;42dip&quot;
+                    android:background = &quot;@drawable/图片ID|#00FF00&quot;
+                    /&gt;
+</pre></div><div><br/></div></span>
+</div></body></html> 

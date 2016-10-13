@@ -1,0 +1,61 @@
+<html>
+<head>
+  <title>while()消耗大量CPU资源</title>
+  <basefont face="微软雅黑" size="2" />
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="exporter-version" content="Evernote Windows/303502 (zh-CN, DDL); Windows/6.1.7601 Service Pack 1 (Win64);"/>
+  <style>
+    body, td {
+      font-family: 微软雅黑;
+      font-size: 10pt;
+    }
+  </style>
+</head>
+<body>
+<a name="561"/>
+<h1>while()消耗大量CPU资源</h1>
+
+<div>
+<span><div><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(73, 73, 73); font-family: simsun; font-size: 14px; background-color: rgb(193, 207, 208);">ServerSocket监听，这种使用是为了保证它中的程序一直运行着   能够在任何时候获得内容并执行（传递。。。。。） 许多应用，都是使用死循环的，因为我们在里面可以<br/>
+1 sleep 休息<br/>
+2 return / break 退出循环<br/>
+举例：在通讯中如果不使用就成为了点对点的通讯了（SOCKET   通讯中）</p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(73, 73, 73); font-family: simsun; font-size: 14px; background-color: rgb(193, 207, 208);">如果要实现while(true)只要给他再重开一个线程就行了,这个一般应用于做通信方面,由于在接收时会发生堵塞,所以接收方面需要重开一个线程,线程里就是while(true){不停的等待发来的消息}</p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(73, 73, 73); font-family: simsun; font-size: 14px; background-color: rgb(193, 207, 208);">在Socket编程中，要采用多线程去处理网络流，客户端需要不停的去监听端口中是否有数据过来，这里采用基本的流收发，DataInputStream在所有的read方法都是阻塞的，只有available这一个方法是非阻塞的，当我判断是否有流的时间，采用available但网络流无数据的时间造成了无限循环，使CPU的占用比达到50%，当去掉这个判断之后，当调用read方法的时间就阻塞到哪里，这样CPU的占用比为0%（约等于），可见我们在写程序的时间，要时刻关注我们程序里面的死循环，最好是在if后面加上else输出一句话，或者DEBUG一下。我倾向于前者，更加直观</p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(73, 73, 73); font-family: simsun; font-size: 14px; background-color: rgb(193, 207, 208);">死循环是可以的，控制权不是由程序控制的，即使你的程序是死循环，其他的应用程也是可以执行的，因为CPU的运行调度是系统来执行的，用线程最好使用sleep，用线程而不用sleep对CPU占有率影响特别大，所以考虑一个合适的sleep时间非常关键。需不需要sleep其实要看循环语句中的执行什么代码   如果有io的read()之类的会阻塞的代码  ，不sleep也可以的</p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(73, 73, 73); font-family: simsun; font-size: 14px; background-color: rgb(193, 207, 208);">   最近做一个java网络通讯的东西,在程序里原本有一段是这样的:<br/>
+while(in.readLine()!=null){<br/>
+      String aa=in.readLine();<br/>
+}<br/>
+       结果发现读取老是错误,后来我试了用下面的方法<br/>
+while(true){<br/>
+     String aa=in.readLine();<br/>
+}<br/>
+       结果读取成功!这程序咋一看差不多,我们考虑第一个程序,当程序读到,while(in.readLine()!=null)的时候，程序发生了阻塞，等待读入，如果读入成功，就执行下一个循环，下一个已开始也是阻塞，接着再读入，如此反复。而第二个是一开始就循环，但是读到String aa=in.readLine()的时候也发生阻塞，也是读入后才发生后面的事情，然后再循环，表明上看好像是一样的，但是结果为什么不一样呢！！！</p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(73, 73, 73); font-family: simsun; font-size: 14px; background-color: rgb(193, 207, 208);">       后来我才弄明白，原来第一个在读到while(in.readLine()!=null)的时候，如果有数据，那么执行String aa=in,readLine()的时候程序会继续往下读，也就是第一个while里面的读入被抛弃了，如果程序读入的只有是一行的话，那么这行就不会读入！！</p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(73, 73, 73); font-family: simsun; font-size: 14px; background-color: rgb(193, 207, 208);"><br/></p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(73, 73, 73); font-family: simsun; font-size: 14px; background-color: rgb(193, 207, 208);"><br/></p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(73, 73, 73); font-family: simsun; font-size: 14px; background-color: rgb(193, 207, 208);"><br/></p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(73, 73, 73); font-family: simsun; font-size: 14px; background-color: rgb(193, 207, 208);"></p><pre style="padding: 0.5em; border-width: 0px 0px 0px 3px; border-left-style: solid; border-left-color: rgb(204, 204, 204); font-size: 13.1999998092651px; display: block; font-family: Consolas, Monaco, 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace; margin: 1em 0px; white-space: pre; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+ @Override
+        public void run() {
+            Log.d(TAG2, &quot;Socket开始接收数据...&quot;);
+            try {
+                while (isReceive) {
+                    if (socket != null &amp;&amp; !socket.isClosed()) {
+                        if (socket.isConnected() &amp;&amp; !socket.isInputShutdown()) {//套接字的传入通道是否已关闭
+                            if (inputStream.available() &gt; 0) {
+                                handle();
+                            }
+                            try {
+                                Thread.currentThread().sleep(1);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                Log.d(TAG2, String.format(&quot;Error：接收数据时发生 %s 异常！&quot;, ex.getClass().getName()));
+                if (ex instanceof java.net.SocketException) {
+                    close();
+                    initOriginalData();
+                    sendBroadcast(new Intent(Constants.INTENT_ACTION.ACTION_NET_CONN_FAILURE));//通知连接中断
+                } else if (ex instanceof java.net.SocketTimeoutException) {
+                }
+            }
+        }
+</pre><br style="color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"/><p style="word-wrap: break-word; margin: 5px 0px; color: rgb(0, 0, 0); font-family: 'sans serif', tahoma, verdana, helvetica; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"></p><p style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(73, 73, 73); font-family: simsun; font-size: 14px; background-color: rgb(193, 207, 208);"><br/></p><div style="word-wrap: break-word; margin: 5px 0px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; color: rgb(73, 73, 73); font-family: simsun; background-color: rgb(193, 207, 208); font-size: 14px;"><div>解决办法   sleep（1）</div></div></div></span>
+</div></body></html> 
